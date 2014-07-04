@@ -22,14 +22,16 @@ public class MoveScript : MonoBehaviour {
 	}
 	
 	void FixedUpdate(){
+#if UNITY_4_5_1
 		grounded = Physics2D.OverlapCircle(groundChecker.position,0.0f,whatIsGround);
 		anim.SetBool("Ground",grounded);
 		Walk();
+#endif
 	}
 
 
 	void Update () {
-
+#if UNITY_4_5_1
 		NomalAcctack();
 		WalkActack();
 		Run();
@@ -37,11 +39,9 @@ public class MoveScript : MonoBehaviour {
 		Jump();
 		JumpActack();
 		if(anim.GetCurrentAnimatorStateInfo(0).nameHash == Animator.StringToHash("Base Layer.Walk"))
-		{
 			moveSpeed = 3.0f;
-		}
 
-
+#endif
 	}
 
 	/*
@@ -51,6 +51,7 @@ public class MoveScript : MonoBehaviour {
 	void Walk()
 	{
 		float move = Input.GetAxis("Horizontal");
+		Debug.Log(move);
 		Flip(move);
 		anim.SetFloat("Speed",Mathf.Abs(move));
 		rigidbody2D.velocity = new Vector2(move*moveSpeed,rigidbody2D.velocity.y);	
